@@ -1,16 +1,16 @@
-resource "aws_s3_bucket" "raquel-willian-tulipa-random-123-321-test" {
-  bucket = "${var.project_name}-bucket-willian-maruyama"
+resource "aws_s3_bucket" "rsite" {
+  bucket = "${var.project_name}-bucket-maruyama-test"
 }
 
-resource "aws_s3_bucket_versioning" "raquel-willian-tulipa-random-123-321-test" {
-  bucket = aws_s3_bucket.raquel-willian-tulipa-random-123-321-test.id
+resource "aws_s3_bucket_versioning" "rsite" {
+  bucket = aws_s3_bucket.rsite.id
   versioning_configuration {
     status = "Enabled"
   }
 }
 
-resource "aws_s3_bucket_public_access_block" "raquel-willian-tulipa-random-123-321-test" {
-  bucket = aws_s3_bucket.raquel-willian-tulipa-random-123-321-test.id
+resource "aws_s3_bucket_public_access_block" "rsite" {
+  bucket = aws_s3_bucket.rsite.id
 
   block_public_acls       = true
   block_public_policy     = true
@@ -18,7 +18,7 @@ resource "aws_s3_bucket_public_access_block" "raquel-willian-tulipa-random-123-3
   restrict_public_buckets = true
 }
 
-resource "aws_cloudfront_origin_access_control" "raquel-willian-tulipa-random-123-321-test" {
+resource "aws_cloudfront_origin_access_control" "rsite" {
   name                              = "${var.project_name}-oac"
   description                       = "Origin Access Control for ${var.project_name}"
   origin_access_control_origin_type = "s3"
@@ -26,14 +26,14 @@ resource "aws_cloudfront_origin_access_control" "raquel-willian-tulipa-random-12
   signing_protocol                  = "sigv4"
 }
 
-resource "aws_cloudfront_distribution" "raquel-willian-tulipa-random-123-321-test" {
+resource "aws_cloudfront_distribution" "rsite" {
   enabled             = true
   default_root_object = "index.html"
 
   origin {
-    domain_name              = aws_s3_bucket.raquel-willian-tulipa-random-123-321-test.bucket_regional_domain_name
+    domain_name              = aws_s3_bucket.rsite.bucket_regional_domain_name
     origin_id                = "s3-site-origin"
-    origin_access_control_id = aws_cloudfront_origin_access_control.raquel-willian-tulipa-random-123-321-test.id
+    origin_access_control_id = aws_cloudfront_origin_access_control.rsite.id
   }
 
   default_cache_behavior {
@@ -63,7 +63,7 @@ resource "aws_cloudfront_distribution" "raquel-willian-tulipa-random-123-321-tes
   }
 }
 
-data "aws_iam_policy_document" "raquel-willian-tulipa-random-123-321-test" {
+data "aws_iam_policy_document" "rsite" {
   statement {
     sid    = "AllowCloudFrontServicePrincipalReadOnly"
     effect = "Allow"
@@ -74,16 +74,16 @@ data "aws_iam_policy_document" "raquel-willian-tulipa-random-123-321-test" {
     actions = [
       "s3:GetObject",
     ]
-    resources = ["${aws_s3_bucket.raquel-willian-tulipa-random-123-321-test.arn}/*"]
+    resources = ["${aws_s3_bucket.rsite.arn}/*"]
     condition {
       test     = "StringEquals"
       variable = "AWS:SourceArn"
-      values   = [aws_cloudfront_distribution.raquel-willian-tulipa-random-123-321-test.arn]
+      values   = [aws_cloudfront_distribution.rsite.arn]
     }
   }
 }
 
-resource "aws_s3_bucket_policy" "raquel-willian-tulipa-random-123-321-test" {
-  bucket = aws_s3_bucket.raquel-willian-tulipa-random-123-321-test.id
-  policy = data.aws_iam_policy_document.raquel-willian-tulipa-random-123-321-test.json
+resource "aws_s3_bucket_policy" "rsite" {
+  bucket = aws_s3_bucket.rsite.id
+  policy = data.aws_iam_policy_document.rsite.json
 }
