@@ -1,5 +1,5 @@
 resource "aws_s3_bucket" "raquel-willian-tulipa-random-123-321-test" {
-  bucket = "${var.project_name}-bucket"
+  bucket = "${var.project_name}-bucket-willian-maruyama"
 }
 
 resource "aws_s3_bucket_versioning" "raquel-willian-tulipa-random-123-321-test" {
