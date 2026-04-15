@@ -1,16 +1,16 @@
-resource "aws_s3_bucket" "willian-maruyama-site-101-20260415" {
+resource "aws_s3_bucket" "maruyama-site-101-20260415-1029380192380-test" {
   bucket = "${var.project_name}-bucket"
 }
 
-resource "aws_s3_bucket_versioning" "willian-maruyama-site-101-20260415" {
-  bucket = aws_s3_bucket.willian-maruyama-site-101-20260415.id
+resource "aws_s3_bucket_versioning" "maruyama-site-101-20260415-1029380192380-test" {
+  bucket = aws_s3_bucket.maruyama-site-101-20260415-1029380192380-test.id
   versioning_configuration {
     status = "Enabled"
   }
 }
 
-resource "aws_s3_bucket_public_access_block" "willian-maruyama-site-101-20260415" {
-  bucket = aws_s3_bucket.willian-maruyama-site-101-20260415.id
+resource "aws_s3_bucket_public_access_block" "maruyama-site-101-20260415-1029380192380-test" {
+  bucket = aws_s3_bucket.maruyama-site-101-20260415-1029380192380-test.id
 
   block_public_acls       = true
   block_public_policy     = true
@@ -18,7 +18,7 @@ resource "aws_s3_bucket_public_access_block" "willian-maruyama-site-101-20260415
   restrict_public_buckets = true
 }
 
-resource "aws_cloudfront_origin_access_control" "willian-maruyama-site-101-20260415" {
+resource "aws_cloudfront_origin_access_control" "maruyama-site-101-20260415-1029380192380-test" {
   name                              = "${var.project_name}-oac"
   description                       = "Origin Access Control for ${var.project_name}"
   origin_access_control_origin_type = "s3"
@@ -26,14 +26,14 @@ resource "aws_cloudfront_origin_access_control" "willian-maruyama-site-101-20260
   signing_protocol                  = "sigv4"
 }
 
-resource "aws_cloudfront_distribution" "willian-maruyama-site-101-20260415" {
+resource "aws_cloudfront_distribution" "maruyama-site-101-20260415-1029380192380-test" {
   enabled             = true
   default_root_object = "index.html"
 
   origin {
-    domain_name              = aws_s3_bucket.willian-maruyama-site-101-20260415.bucket_regional_domain_name
+    domain_name              = aws_s3_bucket.maruyama-site-101-20260415-1029380192380-test.bucket_regional_domain_name
     origin_id                = "s3-site-origin"
-    origin_access_control_id = aws_cloudfront_origin_access_control.willian-maruyama-site-101-20260415.id
+    origin_access_control_id = aws_cloudfront_origin_access_control.maruyama-site-101-20260415-1029380192380-test.id
   }
 
   default_cache_behavior {
@@ -63,7 +63,7 @@ resource "aws_cloudfront_distribution" "willian-maruyama-site-101-20260415" {
   }
 }
 
-data "aws_iam_policy_document" "willian-maruyama-site-101-20260415" {
+data "aws_iam_policy_document" "maruyama-site-101-20260415-1029380192380-test" {
   statement {
     sid    = "AllowCloudFrontServicePrincipalReadOnly"
     effect = "Allow"
@@ -74,16 +74,16 @@ data "aws_iam_policy_document" "willian-maruyama-site-101-20260415" {
     actions = [
       "s3:GetObject",
     ]
-    resources = ["${aws_s3_bucket.willian-maruyama-site-101-20260415.arn}/*"]
+    resources = ["${aws_s3_bucket.maruyama-site-101-20260415-1029380192380-test.arn}/*"]
     condition {
       test     = "StringEquals"
       variable = "AWS:SourceArn"
-      values   = [aws_cloudfront_distribution.willian-maruyama-site-101-20260415.arn]
+      values   = [aws_cloudfront_distribution.maruyama-site-101-20260415-1029380192380-test.arn]
     }
   }
 }
 
-resource "aws_s3_bucket_policy" "willian-maruyama-site-101-20260415" {
-  bucket = aws_s3_bucket.willian-maruyama-site-101-20260415.id
-  policy = data.aws_iam_policy_document.willian-maruyama-site-101-20260415.json
+resource "aws_s3_bucket_policy" "maruyama-site-101-20260415-1029380192380-test" {
+  bucket = aws_s3_bucket.maruyama-site-101-20260415-1029380192380-test.id
+  policy = data.aws_iam_policy_document.maruyama-site-101-20260415-1029380192380-test.json
 }
