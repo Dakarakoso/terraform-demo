@@ -63,7 +63,7 @@ resource "aws_cloudfront_distribution" "willian-maruyama-site-101" {
   }
 }
 
-data "aws_iam_policy_document" "site" {
+data "aws_iam_policy_document" "willian-maruyama-site-101" {
   statement {
     sid    = "AllowCloudFrontServicePrincipalReadOnly"
     effect = "Allow"
@@ -74,16 +74,16 @@ data "aws_iam_policy_document" "site" {
     actions = [
       "s3:GetObject",
     ]
-    resources = ["${aws_s3_bucket.site.arn}/*"]
+    resources = ["${aws_s3_bucket.willian-maruyama-site-101.arn}/*"]
     condition {
       test     = "StringEquals"
       variable = "AWS:SourceArn"
-      values   = [aws_cloudfront_distribution.site.arn]
+      values   = [aws_cloudfront_distribution.willian-maruyama-site-101.arn]
     }
   }
 }
 
-resource "aws_s3_bucket_policy" "site" {
-  bucket = aws_s3_bucket.site.id
-  policy = data.aws_iam_policy_document.site.json
+resource "aws_s3_bucket_policy" "willian-maruyama-site-101" {
+  bucket = aws_s3_bucket.willian-maruyama-site-101.id
+  policy = data.aws_iam_policy_document.willian-maruyama-site-101.json
 }
