@@ -7,3 +7,8 @@ variable "project_name" {
   type    = string
   default = "terraform-demo"
 }
+
+variable "env" {
+  type    = string
+  default = "dev"
+}
