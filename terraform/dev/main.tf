@@ -1,16 +1,16 @@
-resource "aws_s3_bucket" "maruyama-site-101-20260415-1029380192380-test" {
+resource "aws_s3_bucket" "raquel-willian-tulipa-random-123-321-test" {
   bucket = "${var.project_name}-bucket"
 }
 
-resource "aws_s3_bucket_versioning" "maruyama-site-101-20260415-1029380192380-test" {
-  bucket = aws_s3_bucket.maruyama-site-101-20260415-1029380192380-test.id
+resource "aws_s3_bucket_versioning" "raquel-willian-tulipa-random-123-321-test" {
+  bucket = aws_s3_bucket.raquel-willian-tulipa-random-123-321-test.id
   versioning_configuration {
     status = "Enabled"
   }
 }
 
-resource "aws_s3_bucket_public_access_block" "maruyama-site-101-20260415-1029380192380-test" {
-  bucket = aws_s3_bucket.maruyama-site-101-20260415-1029380192380-test.id
+resource "aws_s3_bucket_public_access_block" "raquel-willian-tulipa-random-123-321-test" {
+  bucket = aws_s3_bucket.raquel-willian-tulipa-random-123-321-test.id
 
   block_public_acls       = true
   block_public_policy     = true
@@ -18,7 +18,7 @@ resource "aws_s3_bucket_public_access_block" "maruyama-site-101-20260415-1029380
   restrict_public_buckets = true
 }
 
-resource "aws_cloudfront_origin_access_control" "maruyama-site-101-20260415-1029380192380-test" {
+resource "aws_cloudfront_origin_access_control" "raquel-willian-tulipa-random-123-321-test" {
   name                              = "${var.project_name}-oac"
   description                       = "Origin Access Control for ${var.project_name}"
   origin_access_control_origin_type = "s3"
@@ -26,14 +26,14 @@ resource "aws_cloudfront_origin_access_control" "maruyama-site-101-20260415-1029
   signing_protocol                  = "sigv4"
 }
 
-resource "aws_cloudfront_distribution" "maruyama-site-101-20260415-1029380192380-test" {
+resource "aws_cloudfront_distribution" "raquel-willian-tulipa-random-123-321-test" {
   enabled             = true
   default_root_object = "index.html"
 
   origin {
-    domain_name              = aws_s3_bucket.maruyama-site-101-20260415-1029380192380-test.bucket_regional_domain_name
+    domain_name              = aws_s3_bucket.raquel-willian-tulipa-random-123-321-test.bucket_regional_domain_name
     origin_id                = "s3-site-origin"
-    origin_access_control_id = aws_cloudfront_origin_access_control.maruyama-site-101-20260415-1029380192380-test.id
+    origin_access_control_id = aws_cloudfront_origin_access_control.raquel-willian-tulipa-random-123-321-test.id
   }
 
   default_cache_behavior {
@@ -63,7 +63,7 @@ resource "aws_cloudfront_distribution" "maruyama-site-101-20260415-1029380192380
   }
 }
 
-data "aws_iam_policy_document" "maruyama-site-101-20260415-1029380192380-test" {
+data "aws_iam_policy_document" "raquel-willian-tulipa-random-123-321-test" {
   statement {
     sid    = "AllowCloudFrontServicePrincipalReadOnly"
     effect = "Allow"
@@ -74,16 +74,16 @@ data "aws_iam_policy_document" "maruyama-site-101-20260415-1029380192380-test" {
     actions = [
       "s3:GetObject",
     ]
-    resources = ["${aws_s3_bucket.maruyama-site-101-20260415-1029380192380-test.arn}/*"]
+    resources = ["${aws_s3_bucket.raquel-willian-tulipa-random-123-321-test.arn}/*"]
     condition {
       test     = "StringEquals"
       variable = "AWS:SourceArn"
-      values   = [aws_cloudfront_distribution.maruyama-site-101-20260415-1029380192380-test.arn]
+      values   = [aws_cloudfront_distribution.raquel-willian-tulipa-random-123-321-test.arn]
     }
   }
 }
 
-resource "aws_s3_bucket_policy" "maruyama-site-101-20260415-1029380192380-test" {
-  bucket = aws_s3_bucket.maruyama-site-101-20260415-1029380192380-test.id
-  policy = data.aws_iam_policy_document.maruyama-site-101-20260415-1029380192380-test.json
+resource "aws_s3_bucket_policy" "raquel-willian-tulipa-random-123-321-test" {
+  bucket = aws_s3_bucket.raquel-willian-tulipa-random-123-321-test.id
+  policy = data.aws_iam_policy_document.raquel-willian-tulipa-random-123-321-test.json
 }
