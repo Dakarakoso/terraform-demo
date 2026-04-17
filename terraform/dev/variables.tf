@@ -12,8 +12,3 @@ variable "env" {
   type    = string
   default = "dev"
 }
-
-variable "test" {
-  type    = string
-  default = "test"
-}
