@@ -1,5 +1,5 @@
 resource "aws_s3_bucket" "rsite" {
-  bucket = "${var.project_name}-bucket-maruyama-test"
+  bucket = "${var.env}-${var.project_name}-bucket-maruyama-test"
 }
 
 resource "aws_s3_bucket_versioning" "rsite" {
